@@ -1,0 +1,69 @@
+To generate a git patch to modify `src/components/Canvas.js` and remove the[3D[K
+the extra canvas circles, retaining only the big centered circle and the bo[2D[K
+bottom big circle, you can follow these steps:
+
+1. Open your terminal or command prompt.
+2. Navigate to the root directory of your git repository.
+3. Use the `git diff` command to generate the patch. The `git diff` command[7D[K
+command will show the differences between the current state of your file an[2D[K
+and the last committed state.
+
+Here is an example of how you can generate the patch:
+
+```sh
+git diff src/components/Canvas.js
+```
+
+This command will output the differences between the current state of `src/[5D[K
+`src/components/Canvas.js` and the last committed state. You can then copy [K
+this output to a file and save it as a git patch.
+
+If you want to directly apply this patch, you can use the `git apply` comma[5D[K
+command:
+
+```sh
+git apply patch-file.patch
+```
+
+Replace `patch-file.patch` with the name of the file containing the patch.
+
+Here is an example of what the patch might look like:
+
+```diff
+diff --git a/src/components/Canvas.js b/src/components/Canvas.js
+index 1a2b3c4..5d6e7f8 100644
+--- a/src/components/Canvas.js
++++ b/src/components/Canvas.js
+@@ -10,10 +10,8 @@ import React from 'react';
+ 
+ const Canvas = () => {
+   return (
+-    <svg width="800" height="600">
+-      <circle cx="400" cy="300" r="50" fill="red" />
+-      <circle cx="200" cy="200" r="50" fill="green" />
+-      <circle cx="600" cy="200" r="50" fill="blue" />
+-      <circle cx="400" cy="500" r="50" fill="yellow" />
++    <svg width="800" height="600">
++      <circle cx="400" cy="300" r="100" fill="red" />
++      <circle cx="400" cy="500" r="100" fill="yellow" />
+     </svg>
+   );
+ };
+ 
+ export default Canvas;
+```
+
+In this example, the patch removes the three extra circles and retains only[4D[K
+only the big centered circle and the bottom big circle.
+
+You can then apply this patch using the `git apply` command:
+
+```sh
+git apply patch-file.patch
+```
+
+Replace `patch-file.patch` with the name of the file containing the patch.
+
+This will apply the patch and update `src/components/Canvas.js` accordingly[11D[K
+accordingly.
+
