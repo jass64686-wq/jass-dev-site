@@ -1,6 +1,7 @@
 import { Analytics } from '@vercel/analytics/next'
 import type { Metadata, Viewport } from 'next'
 import { Geist, Geist_Mono } from 'next/font/google'
+import { CSPostHogProvider } from './providers'
 import { SceneBackground } from '@/components/scene/scene-background'
 import { SiteFooter } from '@/components/portfolio/site-footer'
 import { SiteHeader } from '@/components/portfolio/site-header'
@@ -52,7 +53,7 @@ export default function RootLayout({
       <body className="font-sans antialiased">
         <SceneBackground />
         <SiteHeader />
-        {children}
+        <CSPostHogProvider>{children}</CSPostHogProvider>
         <SiteFooter />
         {process.env.NODE_ENV === 'production' && <Analytics />}
       </body>
