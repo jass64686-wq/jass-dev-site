@@ -12,11 +12,15 @@ const nextConfig = {
     return [
       {
         source: '/ingest/static/:path*',
-        destination: 'https://posthog.com/static/:path*',
+        destination: 'https://posthog.com*',
+      },
+      {
+        source: '/ingest/decide',
+        destination: 'https://posthog.com',
       },
       {
         source: '/ingest/:path*',
-        destination: 'https://posthog.com/:path*',
+        destination: 'https://posthog.com*',
       },
     ]
   },
