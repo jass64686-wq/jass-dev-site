@@ -3,8 +3,8 @@ import { PortfolioGrid } from '@/components/portfolio/portfolio-grid'
 import { projects } from '@/lib/projects'
 
 export const metadata: Metadata = {
-  title: 'Portfolio — jass.dev',
-  description: 'A complete archive of web apps, CMS & e-commerce builds, WebGL experiences and tooling by jass.dev.',
+  title: 'Portfolio — Jass Dev',
+  description: 'A complete archive of web apps, CMS & e-commerce builds, WebGL experiences and tooling by Jass Dev.',
 }
 
 export default function PortfolioPage() {

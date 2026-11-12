@@ -7,7 +7,7 @@ import { TechStack } from '@/components/portfolio/tech-stack'
 import { Timeline } from '@/components/portfolio/timeline'
 
 export const metadata: Metadata = {
-  title: 'About — jass.dev',
+  title: 'About — Jass Dev',
   description: 'About Jass — a full-stack developer with 4+ years of experience across Shopify, WordPress, JavaScript and modern web applications.',
 }
 
@@ -56,7 +56,7 @@ export default function AboutPage() {
                 />
               </div>
               <figcaption className="mt-4 text-center font-mono text-xs text-muted-foreground">
-                {'jass.dev · available for projects'}
+                {'Jass Dev · available for projects'}
               </figcaption>
             </figure>
           </div>

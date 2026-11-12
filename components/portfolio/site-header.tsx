@@ -29,7 +29,7 @@ export function SiteHeader() {
           href="/#top"
           className="pointer-events-auto rounded-full border border-white/60 bg-white/60 px-3 py-2 font-mono text-sm font-semibold tracking-tight text-foreground shadow-sm backdrop-blur-md"
         >
-          jass<span className="text-brand-gradient">.dev</span>
+          Jass Dev
         </Link>
         <ul className="pointer-events-auto hidden items-center gap-0.5 rounded-full border border-white/60 bg-white/50 p-1 shadow-sm backdrop-blur-md md:flex md:gap-1">
           {links.map((link) => {

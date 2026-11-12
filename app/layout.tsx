@@ -10,9 +10,9 @@ const geist = Geist({ subsets: ['latin'], variable: '--font-geist' })
 const geistMono = Geist_Mono({ subsets: ['latin'], variable: '--font-geist-mono' })
 
 export const metadata: Metadata = {
-  title: 'jass.dev — Full-stack, CMS & E-commerce Developer',
+  title: 'Jass Dev — Full-stack, CMS & E-commerce Developer',
   description:
-    'Portfolio of jass.dev — fast, accessible websites and apps with Next.js, WordPress, Shopify, Webflow, Framer, headless CMS, WooCommerce, CheckoutChamp and GoHighLevel.',
+    'Portfolio of Jass Dev — fast, accessible websites and apps with Next.js, WordPress, Shopify, Webflow, Framer, headless CMS, WooCommerce, CheckoutChamp and GoHighLevel.',
   generator: 'v0.app',
   icons: {
     icon: [

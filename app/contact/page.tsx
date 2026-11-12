@@ -5,8 +5,8 @@ import { SectionHeading } from '@/components/portfolio/section-heading'
 import { ContactPageForm } from '@/components/portfolio/contact-page-form'
 
 export const metadata: Metadata = {
-  title: 'Contact — jass.dev',
-  description: 'Start a project with jass.dev — websites, Shopify & WooCommerce stores, funnels and headless CMS builds.',
+  title: 'Contact — Jass Dev',
+  description: 'Start a project with Jass Dev — websites, Shopify & WooCommerce stores, funnels and headless CMS builds.',
 }
 
 const details = [
