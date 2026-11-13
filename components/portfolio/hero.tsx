@@ -1,6 +1,5 @@
 import { ArrowRight, MousePointerClick } from 'lucide-react'
 import Link from 'next/link'
-import { SceneToggle } from '@/components/scene/scene-toggle'
 
 export function Hero() {
   return (
@@ -38,10 +37,10 @@ export function Hero() {
           </div>
         </div>
       </div>
-      <div className="absolute inset-x-0 bottom-8 flex items-center justify-center gap-2">
-        <MousePointerClick className="size-4 text-muted-foreground" aria-hidden="true" />
-        <SceneToggle />
-      </div>
+      <p className="absolute inset-x-0 bottom-8 flex items-center justify-center gap-2 font-mono text-xs text-muted-foreground">
+        <MousePointerClick className="size-4" aria-hidden="true" />
+        Drag the shapes &middot; click to recolor
+      </p>
     </section>
   )
 }
