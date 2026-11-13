@@ -232,10 +232,11 @@ function HoloGrid() {
 
 const PARTICLE_COLORS = HUD_COLORS.slice(0, 3)
 
-function DataParticles({ count = 1200 }: { count?: number }) {
+function DataParticles() {
   const points = useRef<THREE.Points>(null)
   const { viewport } = useThree()
   const isNarrow = viewport.width < 8
+  const count = isNarrow ? 320 : 800
 
   const { positions, colors } = useMemo(() => {
     const positions = new Float32Array(count * 3)
@@ -341,9 +342,9 @@ function ResponsiveGroup({ children }: { children: ReactNode }) {
 export default function HeroScene() {
   return (
     <Canvas
-      dpr={[1, 2]}
+      dpr={[1, 1.5]}
       camera={{ position: [0, 0, 9], fov: 45 }}
-      gl={{ antialias: true, alpha: true }}
+      gl={{ antialias: false, alpha: true }}
       aria-label="Interactive holographic core. Drag it to rotate, click it to pulse and change color."
     >
       <ambientLight intensity={0.6} />

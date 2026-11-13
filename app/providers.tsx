@@ -1,48 +1,57 @@
 'use client'
 
-import FingerprintJS from '@fingerprintjs/fingerprintjs'
-import posthog from 'posthog-js'
-import { PostHogProvider } from 'posthog-js/react'
-import { useEffect, type ReactNode } from 'react'
+import { useEffect } from 'react'
+import { initializeAnalytics } from '@/lib/analytics'
 
-let initializedPostHogKey: string | undefined
-
-export function CSPostHogProvider({ children }: { children: ReactNode }) {
+export function CSPostHogProvider() {
   const postHogKey = process.env.NEXT_PUBLIC_POSTHOG_KEY
 
   useEffect(() => {
     if (!postHogKey) return
 
-    if (initializedPostHogKey !== postHogKey) {
-      posthog.init(postHogKey, {
-        api_host: '/ingest',
-        ui_host: 'https://posthog.com',
-        person_profiles: 'always',
-        capture_pageview: true,
-        capture_pageleave: true,
-      })
-      initializedPostHogKey = postHogKey
-    }
-
     let cancelled = false
+    let loadTimer: number | undefined
+    let idleCallback: number | undefined
 
-    async function identifyVisitor() {
-      try {
-        const fingerprint = await FingerprintJS.load()
-        const { visitorId } = await fingerprint.get()
-        if (!cancelled) {
-          posthog.identify(visitorId, { fingerprint_id: visitorId })
-        }
-      } catch (error) {
-        console.error('[analytics] Failed to identify visitor', error)
-      }
+    const loadAnalytics = () => {
+      void initializeAnalytics()
+        .then(async (posthog) => {
+          if (cancelled || !posthog) return
+          const { default: FingerprintJS } = await import('@fingerprintjs/fingerprintjs')
+          const fingerprint = await FingerprintJS.load()
+          const { visitorId } = await fingerprint.get()
+          if (!cancelled) {
+            posthog.identify(visitorId, { fingerprint_id: visitorId })
+          }
+        })
+        .catch((error: unknown) => {
+          console.error('[analytics] Failed to initialize analytics', error)
+        })
     }
 
-    void identifyVisitor()
+    const scheduleAnalytics = () => {
+      loadTimer = window.setTimeout(() => {
+        if ('requestIdleCallback' in window) {
+          idleCallback = window.requestIdleCallback(loadAnalytics, { timeout: 5000 })
+        } else {
+          loadAnalytics()
+        }
+      }, 5000)
+    }
+
+    if (document.readyState === 'complete') {
+      scheduleAnalytics()
+    } else {
+      window.addEventListener('load', scheduleAnalytics, { once: true })
+    }
+
     return () => {
       cancelled = true
+      window.removeEventListener('load', scheduleAnalytics)
+      if (loadTimer !== undefined) window.clearTimeout(loadTimer)
+      if (idleCallback !== undefined) window.cancelIdleCallback(idleCallback)
     }
   }, [postHogKey])
 
-  return <PostHogProvider client={posthog}>{children}</PostHogProvider>
+  return null
 }

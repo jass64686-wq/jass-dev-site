@@ -2,8 +2,8 @@
 
 import { useActionState, useState } from 'react'
 import { CheckCircle2, Loader2, Send } from 'lucide-react'
-import posthog from 'posthog-js'
 import { submitContact, type ContactState } from '@/app/actions/contact'
+import { initializeAnalytics } from '@/lib/analytics'
 import { Button } from '@/components/ui/button'
 import {
   Dialog,
@@ -26,9 +26,14 @@ async function submitContactAndTrack(prevState: ContactState, formData: FormData
   if (result.status === 'success') {
     const email = String(formData.get('email') ?? '').trim()
     const name = String(formData.get('name') ?? '').trim()
-    posthog.identify(email, { email, name })
-    posthog.setPersonProperties({ email, name })
-    posthog.capture('contact_form_submitted', { email })
+    try {
+      const posthog = await initializeAnalytics()
+      posthog?.identify(email, { email, name })
+      posthog?.setPersonProperties({ email, name })
+      posthog?.capture('contact_form_submitted', { email })
+    } catch (error) {
+      console.error('[analytics] Failed to track contact form submission', error)
+    }
   }
   return result
 }
