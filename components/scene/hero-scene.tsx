@@ -1,7 +1,7 @@
 'use client'
 
 import { Canvas, useFrame, useThree, type ThreeEvent } from '@react-three/fiber'
-import { useMemo, useRef, useState, type ReactNode } from 'react'
+import { useEffect, useMemo, useRef, useState, type ReactNode } from 'react'
 import * as THREE from 'three'
 
 const HUD_COLORS = ['#4625eb', '#170d48', '#7c3aed', '#ea580c']
@@ -303,6 +303,27 @@ function CameraRig() {
   return null
 }
 
+function FrameScheduler() {
+  const invalidate = useThree((state) => state.invalidate)
+
+  useEffect(() => {
+    const renderFrame = () => {
+      if (!document.hidden) invalidate()
+    }
+
+    invalidate()
+    const interval = window.setInterval(renderFrame, 25)
+    document.addEventListener('visibilitychange', renderFrame)
+
+    return () => {
+      window.clearInterval(interval)
+      document.removeEventListener('visibilitychange', renderFrame)
+    }
+  }, [invalidate])
+
+  return null
+}
+
 function ScrollGlobe({ children }: { children: ReactNode }) {
   const ref = useRef<THREE.Group>(null)
   const { viewport } = useThree()
@@ -342,6 +363,7 @@ function ResponsiveGroup({ children }: { children: ReactNode }) {
 export default function HeroScene() {
   return (
     <Canvas
+      frameloop="demand"
       dpr={[1, 1.5]}
       camera={{ position: [0, 0, 9], fov: 45 }}
       gl={{ antialias: false, alpha: true }}
@@ -364,6 +386,7 @@ export default function HeroScene() {
       <directionalLight position={[6, 1, 1]} intensity={1.8} color="#a5f3fc" />
 
       <CameraRig />
+      <FrameScheduler />
     </Canvas>
   )
 }
