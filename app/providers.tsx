@@ -9,24 +9,13 @@ export function CSPostHogProvider() {
   useEffect(() => {
     if (!postHogKey) return
 
-    let cancelled = false
     let loadTimer: number | undefined
     let idleCallback: number | undefined
 
     const loadAnalytics = () => {
-      void initializeAnalytics()
-        .then(async (posthog) => {
-          if (cancelled || !posthog) return
-          const { default: FingerprintJS } = await import('@fingerprintjs/fingerprintjs')
-          const fingerprint = await FingerprintJS.load()
-          const { visitorId } = await fingerprint.get()
-          if (!cancelled) {
-            posthog.identify(visitorId, { fingerprint_id: visitorId })
-          }
-        })
-        .catch((error: unknown) => {
-          console.error('[analytics] Failed to initialize analytics', error)
-        })
+      void initializeAnalytics().catch((error: unknown) => {
+        console.error('[analytics] Failed to initialize analytics', error)
+      })
     }
 
     const scheduleAnalytics = () => {
@@ -46,7 +35,6 @@ export function CSPostHogProvider() {
     }
 
     return () => {
-      cancelled = true
       window.removeEventListener('load', scheduleAnalytics)
       if (loadTimer !== undefined) window.clearTimeout(loadTimer)
       if (idleCallback !== undefined) window.cancelIdleCallback(idleCallback)

@@ -56,7 +56,7 @@ export default function RootLayout({
         <CSPostHogProvider />
         {children}
         <SiteFooter />
-        {process.env.NODE_ENV === 'production' && <Analytics />}
+        {process.env.NODE_ENV === 'production' && process.env.VERCEL === '1' && <Analytics />}
       </body>
     </html>
   )

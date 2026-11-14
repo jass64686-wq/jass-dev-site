@@ -13,18 +13,18 @@ export function SceneBackground() {
 
   useEffect(() => {
     let idleCallback: number | undefined
-    const timer = window.setTimeout(() => {
-      const showScene = () => setSceneReady(true)
+    let timer: number | undefined
+    const showScene = () => setSceneReady(true)
+    const scheduleFallback = window.setTimeout.bind(window)
 
-      if ('requestIdleCallback' in window) {
-        idleCallback = window.requestIdleCallback(showScene, { timeout: 2500 })
-      } else {
-        showScene()
-      }
-    }, 1200)
+    if ('requestIdleCallback' in window) {
+      idleCallback = window.requestIdleCallback(showScene, { timeout: 1500 })
+    } else {
+      timer = scheduleFallback(showScene, 250)
+    }
 
     return () => {
-      window.clearTimeout(timer)
+      if (timer !== undefined) window.clearTimeout(timer)
       if (idleCallback !== undefined) window.cancelIdleCallback(idleCallback)
     }
   }, [])

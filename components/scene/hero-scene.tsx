@@ -84,7 +84,7 @@ function TickRing({ radius, count, color }: { radius: number; count: number; col
 }
 
 function ArcReactor({ position }: { position: [number, number, number] }) {
-  const { viewport } = useThree()
+  const { gl, viewport } = useThree()
   const isNarrow = viewport.width < 8
   const group = useRef<THREE.Group>(null)
   const core = useRef<THREE.Mesh>(null)
@@ -98,6 +98,58 @@ function ArcReactor({ position }: { position: [number, number, number] }) {
   const [hovered, setHovered] = useState(false)
   const [boost, setBoost] = useState(0)
   const color = HUD_COLORS[colorIndex]
+
+  useEffect(() => {
+    const canvas = gl.domElement
+    const previousTabIndex = canvas.getAttribute('tabindex')
+    const previousRole = canvas.getAttribute('role')
+    const previousLabel = canvas.getAttribute('aria-label')
+
+    canvas.tabIndex = 0
+    canvas.setAttribute('role', 'group')
+    canvas.setAttribute(
+      'aria-label',
+      'Interactive holographic core. Use the arrow keys to rotate it, Enter or Space to change its color.',
+    )
+
+    const handleKeyDown = (event: KeyboardEvent) => {
+      switch (event.key) {
+        case 'ArrowLeft':
+          rotationTarget.current.y -= 0.2
+          break
+        case 'ArrowRight':
+          rotationTarget.current.y += 0.2
+          break
+        case 'ArrowUp':
+          rotationTarget.current.x = THREE.MathUtils.clamp(rotationTarget.current.x - 0.2, -1.2, 1.2)
+          break
+        case 'ArrowDown':
+          rotationTarget.current.x = THREE.MathUtils.clamp(rotationTarget.current.x + 0.2, -1.2, 1.2)
+          break
+        case 'Enter':
+        case ' ':
+          event.preventDefault()
+          pulse.current = 1
+          setColorIndex((current) => (current + 1) % HUD_COLORS.length)
+          break
+        default:
+          return
+      }
+
+      event.preventDefault()
+    }
+
+    canvas.addEventListener('keydown', handleKeyDown)
+    return () => {
+      canvas.removeEventListener('keydown', handleKeyDown)
+      if (previousTabIndex === null) canvas.removeAttribute('tabindex')
+      else canvas.setAttribute('tabindex', previousTabIndex)
+      if (previousRole === null) canvas.removeAttribute('role')
+      else canvas.setAttribute('role', previousRole)
+      if (previousLabel === null) canvas.removeAttribute('aria-label')
+      else canvas.setAttribute('aria-label', previousLabel)
+    }
+  }, [gl])
 
   useFrame((state, delta) => {
     if (!group.current || !core.current || !shell.current) return
@@ -307,17 +359,39 @@ function FrameScheduler() {
   const invalidate = useThree((state) => state.invalidate)
 
   useEffect(() => {
-    const renderFrame = () => {
-      if (!document.hidden) invalidate()
+    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)')
+    let timer: number | undefined
+
+    const stop = () => {
+      if (timer !== undefined) {
+        window.clearTimeout(timer)
+        timer = undefined
+      }
+    }
+
+    const schedule = () => {
+      if (document.hidden || reducedMotion.matches || timer !== undefined) return
+      timer = window.setTimeout(() => {
+        timer = undefined
+        invalidate()
+        schedule()
+      }, 1000 / 30)
+    }
+
+    const update = () => {
+      if (document.hidden || reducedMotion.matches) stop()
+      else schedule()
     }
 
     invalidate()
-    const interval = window.setInterval(renderFrame, 25)
-    document.addEventListener('visibilitychange', renderFrame)
+    update()
+    document.addEventListener('visibilitychange', update)
+    reducedMotion.addEventListener('change', update)
 
     return () => {
-      window.clearInterval(interval)
-      document.removeEventListener('visibilitychange', renderFrame)
+      stop()
+      document.removeEventListener('visibilitychange', update)
+      reducedMotion.removeEventListener('change', update)
     }
   }, [invalidate])
 
@@ -364,10 +438,9 @@ export default function HeroScene() {
   return (
     <Canvas
       frameloop="demand"
-      dpr={[1, 1.5]}
+      dpr={[1, 1.25]}
       camera={{ position: [0, 0, 9], fov: 45 }}
       gl={{ antialias: false, alpha: true }}
-      aria-label="Interactive holographic core. Drag it to rotate, click it to pulse and change color."
     >
       <ambientLight intensity={0.6} />
       <pointLight position={[4, 3, 4]} intensity={30} color="#22d3ee" />

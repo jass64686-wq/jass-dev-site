@@ -13,6 +13,8 @@ export function initializeAnalytics() {
           person_profiles: 'always',
           capture_pageview: true,
           capture_pageleave: true,
+          autocapture: false,
+          disable_session_recording: true,
         })
         return posthog
       })
