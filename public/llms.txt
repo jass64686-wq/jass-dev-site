@@ -1,0 +1,12 @@
+# Jass Dev
+
+> Full-stack web developer building accessible websites, e-commerce stores, and modern web applications.
+
+Jass Dev works with Next.js, Shopify, WordPress, Webflow, Framer, and headless CMS platforms.
+
+## Pages
+
+- [Home](https://jassdev.com/): Services, experience, selected work, and contact options.
+- [Portfolio](https://jassdev.com/portfolio): Web applications, CMS and e-commerce projects, and experiments.
+- [About](https://jassdev.com/about): Background, engineering approach, platforms, and experience.
+- [Contact](https://jassdev.com/contact): Project inquiries and contact details.

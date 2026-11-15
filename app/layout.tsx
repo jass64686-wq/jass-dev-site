@@ -1,36 +1,63 @@
 import { Analytics } from '@vercel/analytics/next'
 import type { Metadata, Viewport } from 'next'
 import { Geist, Geist_Mono } from 'next/font/google'
-import { CSPostHogProvider } from './providers'
 import { SceneBackground } from '@/components/scene/scene-background'
 import { SiteFooter } from '@/components/portfolio/site-footer'
 import { SiteHeader } from '@/components/portfolio/site-header'
+import { SITE_DESCRIPTION, SITE_NAME, SITE_URL } from '@/lib/site'
 import './globals.css'
 
 const geist = Geist({ subsets: ['latin'], variable: '--font-geist' })
 const geistMono = Geist_Mono({ subsets: ['latin'], variable: '--font-geist-mono' })
 
 export const metadata: Metadata = {
-  title: 'Jass Dev — Full-stack, CMS & E-commerce Developer',
-  description:
-    'Portfolio of Jass Dev — fast, accessible websites and apps with Next.js, WordPress, Shopify, Webflow, Framer, headless CMS, WooCommerce, CheckoutChamp and GoHighLevel.',
-  generator: 'v0.app',
-  icons: {
-    icon: [
-      {
-        url: '/icon-light-32x32.png',
-        media: '(prefers-color-scheme: light)',
-      },
-      {
-        url: '/icon-dark-32x32.png',
-        media: '(prefers-color-scheme: dark)',
-      },
-      {
-        url: '/icon.svg',
-        type: 'image/svg+xml',
-      },
-    ],
-    apple: '/apple-icon.png',
+  metadataBase: new URL(SITE_URL),
+  title: {
+    default: 'Jass Dev | Full-stack Web Developer',
+    template: '%s | Jass Dev',
+  },
+  description: SITE_DESCRIPTION,
+  applicationName: SITE_NAME,
+  authors: [{ name: SITE_NAME, url: SITE_URL }],
+  creator: SITE_NAME,
+  publisher: SITE_NAME,
+  keywords: [
+    'full-stack web developer',
+    'Next.js developer',
+    'Shopify developer',
+    'WordPress developer',
+    'e-commerce development',
+    'Webflow developer',
+    'headless CMS',
+  ],
+  alternates: {
+    canonical: '/',
+  },
+  openGraph: {
+    type: 'website',
+    locale: 'en_US',
+    url: '/',
+    siteName: SITE_NAME,
+    title: 'Jass Dev | Full-stack Web Developer',
+    description: SITE_DESCRIPTION,
+    images: [{ url: '/images/jass-professional.webp', alt: 'Portrait of Jass Dev' }],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Jass Dev | Full-stack Web Developer',
+    description: SITE_DESCRIPTION,
+    images: ['/images/jass-professional.webp'],
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
+      'max-video-preview': -1,
+    },
   },
 }
 
@@ -53,7 +80,6 @@ export default function RootLayout({
       <body className="font-sans antialiased">
         <SceneBackground />
         <SiteHeader />
-        <CSPostHogProvider />
         {children}
         <SiteFooter />
         {process.env.NODE_ENV === 'production' && process.env.VERCEL === '1' && <Analytics />}

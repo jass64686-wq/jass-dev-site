@@ -3,8 +3,27 @@ import { PortfolioGrid } from '@/components/portfolio/portfolio-grid'
 import { projects } from '@/lib/projects'
 
 export const metadata: Metadata = {
-  title: 'Portfolio — Jass Dev',
-  description: 'A complete archive of web apps, CMS & e-commerce builds, WebGL experiences and tooling by Jass Dev.',
+  title: 'Portfolio',
+  description:
+    'Explore web apps, CMS and e-commerce builds, WebGL experiences and tools designed and developed by Jass Dev.',
+  alternates: {
+    canonical: '/portfolio',
+  },
+  openGraph: {
+    type: 'website',
+    url: '/portfolio',
+    title: 'Portfolio | Jass Dev',
+    description:
+      'Explore web apps, CMS and e-commerce builds, WebGL experiences and tools designed and developed by Jass Dev.',
+    images: [{ url: '/images/jass-professional.webp', alt: 'Portrait of Jass Dev' }],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Portfolio | Jass Dev',
+    description:
+      'Explore web apps, CMS and e-commerce builds, WebGL experiences and tools designed and developed by Jass Dev.',
+    images: ['/images/jass-professional.webp'],
+  },
 }
 
 export default function PortfolioPage() {

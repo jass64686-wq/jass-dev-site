@@ -5,8 +5,27 @@ import { SectionHeading } from '@/components/portfolio/section-heading'
 import { ContactPageForm } from '@/components/portfolio/contact-page-form'
 
 export const metadata: Metadata = {
-  title: 'Contact — Jass Dev',
-  description: 'Start a project with Jass Dev — websites, Shopify & WooCommerce stores, funnels and headless CMS builds.',
+  title: 'Contact',
+  description:
+    'Contact Jass Dev to discuss a website, Shopify or WooCommerce store, funnel, or headless CMS project.',
+  alternates: {
+    canonical: '/contact',
+  },
+  openGraph: {
+    type: 'website',
+    url: '/contact',
+    title: 'Contact Jass Dev',
+    description:
+      'Get in touch with Jass Dev about a website, e-commerce store, funnel, or headless CMS project.',
+    images: [{ url: '/images/jass-professional.webp', alt: 'Portrait of Jass Dev' }],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Contact Jass Dev',
+    description:
+      'Get in touch with Jass Dev about a website, e-commerce store, funnel, or headless CMS project.',
+    images: ['/images/jass-professional.webp'],
+  },
 }
 
 const details = [

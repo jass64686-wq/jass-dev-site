@@ -3,7 +3,6 @@
 import { useActionState, useState } from 'react'
 import { CheckCircle2, Loader2, Send } from 'lucide-react'
 import { submitContact, type ContactState } from '@/app/actions/contact'
-import { initializeAnalytics } from '@/lib/analytics'
 import { Button } from '@/components/ui/button'
 import {
   Dialog,
@@ -21,25 +20,8 @@ import { cn } from '@/lib/utils'
 const TOPICS = ['New website', 'E-commerce store', 'Funnel / GHL', 'Freelance', 'Just saying hi']
 const initialState: ContactState = { status: 'idle' }
 
-async function submitContactAndTrack(prevState: ContactState, formData: FormData): Promise<ContactState> {
-  const result = await submitContact(prevState, formData)
-  if (result.status === 'success') {
-    const email = String(formData.get('email') ?? '').trim()
-    const name = String(formData.get('name') ?? '').trim()
-    try {
-      const posthog = await initializeAnalytics()
-      posthog?.identify(email, { email, name })
-      posthog?.setPersonProperties({ email, name })
-      posthog?.capture('contact_form_submitted', { email })
-    } catch (error) {
-      console.error('[analytics] Failed to track contact form submission', error)
-    }
-  }
-  return result
-}
-
 export function ContactForm({ onDone, doneLabel = 'Close' }: { onDone: () => void; doneLabel?: string }) {
-  const [state, formAction, pending] = useActionState(submitContactAndTrack, initialState)
+  const [state, formAction, pending] = useActionState(submitContact, initialState)
   const [topic, setTopic] = useState(TOPICS[0])
 
   if (state.status === 'success') {

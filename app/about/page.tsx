@@ -7,8 +7,27 @@ import { TechStack } from '@/components/portfolio/tech-stack'
 import { Timeline } from '@/components/portfolio/timeline'
 
 export const metadata: Metadata = {
-  title: 'About — Jass Dev',
-  description: 'About Jass — a full-stack developer with 4+ years of experience across Shopify, WordPress, JavaScript and modern web applications.',
+  title: 'About',
+  description:
+    'Meet Jass Dev, a full-stack web developer building accessible Next.js, Shopify, WordPress, Webflow and headless CMS experiences.',
+  alternates: {
+    canonical: '/about',
+  },
+  openGraph: {
+    type: 'website',
+    url: '/about',
+    title: 'About Jass Dev',
+    description:
+      'Learn about Jass Dev and his experience building websites, e-commerce stores and modern web applications.',
+    images: [{ url: '/images/jass-professional.webp', alt: 'Portrait of Jass Dev' }],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'About Jass Dev',
+    description:
+      'Learn about Jass Dev and his experience building websites, e-commerce stores and modern web applications.',
+    images: ['/images/jass-professional.webp'],
+  },
 }
 
 export default function AboutPage() {
