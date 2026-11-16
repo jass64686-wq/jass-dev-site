@@ -1,10 +1,10 @@
-import { Analytics } from '@vercel/analytics/next'
 import type { Metadata, Viewport } from 'next'
 import { Geist, Geist_Mono } from 'next/font/google'
+import { ConsentManager } from '@/components/portfolio/consent-manager'
 import { SceneBackground } from '@/components/scene/scene-background'
 import { SiteFooter } from '@/components/portfolio/site-footer'
 import { SiteHeader } from '@/components/portfolio/site-header'
-import { SITE_DESCRIPTION, SITE_NAME, SITE_URL } from '@/lib/site'
+import { HOME_PAGE_TITLE, SITE_DESCRIPTION, SITE_NAME, SITE_URL } from '@/lib/site'
 import './globals.css'
 
 const geist = Geist({ subsets: ['latin'], variable: '--font-geist' })
@@ -13,7 +13,7 @@ const geistMono = Geist_Mono({ subsets: ['latin'], variable: '--font-geist-mono'
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
-    default: 'Jass Dev | Full-stack Web Developer',
+    default: HOME_PAGE_TITLE,
     template: '%s | Jass Dev',
   },
   description: SITE_DESCRIPTION,
@@ -38,13 +38,13 @@ export const metadata: Metadata = {
     locale: 'en_US',
     url: '/',
     siteName: SITE_NAME,
-    title: 'Jass Dev | Full-stack Web Developer',
+    title: HOME_PAGE_TITLE,
     description: SITE_DESCRIPTION,
     images: [{ url: '/images/jass-professional.webp', alt: 'Portrait of Jass Dev' }],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Jass Dev | Full-stack Web Developer',
+    title: HOME_PAGE_TITLE,
     description: SITE_DESCRIPTION,
     images: ['/images/jass-professional.webp'],
   },
@@ -82,7 +82,9 @@ export default function RootLayout({
         <SiteHeader />
         {children}
         <SiteFooter />
-        {process.env.NODE_ENV === 'production' && process.env.VERCEL === '1' && <Analytics />}
+        <ConsentManager
+          analyticsEnabled={process.env.NODE_ENV === 'production' && process.env.VERCEL === '1'}
+        />
       </body>
     </html>
   )

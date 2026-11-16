@@ -1,5 +1,5 @@
 import type { Metadata } from 'next'
-import { Clock, Mail, MapPin } from 'lucide-react'
+import { Clock, Mail, MapPin, type LucideIcon } from 'lucide-react'
 import Link from 'next/link'
 import { SectionHeading } from '@/components/portfolio/section-heading'
 import { ContactPageForm } from '@/components/portfolio/contact-page-form'
@@ -28,8 +28,8 @@ export const metadata: Metadata = {
   },
 }
 
-const details = [
-  { icon: Mail, label: 'Email', value: 'jass.dev39@gmail.com', href: 'mailto:jass.dev39@gmail.com' },
+const details: { icon: LucideIcon; label: string; value: string; href?: string }[] = [
+  { icon: Mail, label: 'Email', value: 'Use the form below to send a message' },
   { icon: Clock, label: 'Response time', value: 'Within 48 hours' },
   { icon: MapPin, label: 'Location', value: 'Remote · Worldwide' },
 ]
@@ -90,7 +90,10 @@ export default function ContactPage() {
               </ul>
             </div>
 
-            <div className="pointer-events-auto rounded-3xl border border-white/70 bg-white/70 p-6 shadow-xl shadow-violet-500/10 backdrop-blur-xl md:p-8 lg:col-span-7">
+            <div
+              id="message"
+              className="pointer-events-auto scroll-mt-24 rounded-3xl border border-white/70 bg-white/70 p-6 shadow-xl shadow-violet-500/10 backdrop-blur-xl md:p-8 lg:col-span-7"
+            >
               <h2 className="text-xl font-semibold tracking-tight text-foreground">Send a message</h2>
               <p className="mb-6 mt-1 text-sm text-muted-foreground">All fields are required.</p>
               <ContactPageForm />

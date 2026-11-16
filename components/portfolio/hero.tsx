@@ -1,5 +1,6 @@
 import { ArrowRight, MousePointerClick } from 'lucide-react'
 import Link from 'next/link'
+import { SceneActivationControl } from '@/components/scene/scene-activation-control'
 
 export function Hero() {
   return (
@@ -37,9 +38,9 @@ export function Hero() {
           </div>
         </div>
       </div>
-      <p className="absolute inset-x-0 bottom-8 flex items-center justify-center gap-2 font-mono text-xs text-muted-foreground">
+      <p className="absolute inset-x-0 bottom-16 flex items-center justify-center gap-2 font-mono text-xs text-muted-foreground">
         <MousePointerClick className="size-4" aria-hidden="true" />
-        Move or tap to activate &middot; drag to recolor
+        <SceneActivationControl />
       </p>
     </section>
   )

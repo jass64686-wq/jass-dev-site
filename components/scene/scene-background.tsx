@@ -8,26 +8,20 @@ const HeroScene = dynamic(() => import('./hero-scene'), {
   loading: () => null,
 })
 
+export const SCENE_ACTIVATION_EVENT = 'jass-dev:activate-scene'
+
+export function preloadHeroScene() {
+  return import('./hero-scene')
+}
+
 export function SceneBackground() {
   const [sceneReady, setSceneReady] = useState(false)
 
   useEffect(() => {
-    const showScene = () => {
-      window.removeEventListener('pointermove', showScene)
-      window.removeEventListener('pointerdown', showScene)
-      window.removeEventListener('keydown', showScene)
-      setSceneReady(true)
-    }
+    const showScene = () => setSceneReady(true)
+    window.addEventListener(SCENE_ACTIVATION_EVENT, showScene)
 
-    window.addEventListener('pointermove', showScene, { once: true, passive: true })
-    window.addEventListener('pointerdown', showScene, { once: true, passive: true })
-    window.addEventListener('keydown', showScene, { once: true })
-
-    return () => {
-      window.removeEventListener('pointermove', showScene)
-      window.removeEventListener('pointerdown', showScene)
-      window.removeEventListener('keydown', showScene)
-    }
+    return () => window.removeEventListener(SCENE_ACTIVATION_EVENT, showScene)
   }, [])
 
   return (

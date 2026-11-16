@@ -1,7 +1,20 @@
 import { Briefcase, Code2, GitCommitHorizontal, Rocket } from 'lucide-react'
+import { getExperienceDuration } from '@/lib/experience'
+import { ExperienceDuration } from './experience-duration'
+
+const initialExperienceDuration = getExperienceDuration()
 
 const stats = [
-  { icon: Briefcase, value: '4+', label: 'Years of experience' },
+  {
+    icon: Briefcase,
+    value: (
+      <ExperienceDuration
+        initialDuration={initialExperienceDuration}
+        className="text-xl md:text-2xl"
+      />
+    ),
+    label: 'Years of experience',
+  },
   { icon: Rocket, value: '30+', label: 'Projects shipped' },
   { icon: GitCommitHorizontal, value: '1.2k', label: 'Commits this year' },
   { icon: Code2, value: '6', label: 'Open-source packages' },

@@ -64,7 +64,7 @@ export function ContactForm({ onDone, doneLabel = 'Close' }: { onDone: () => voi
             name="email"
             type="email"
             autoComplete="email"
-            placeholder="tony@stark.com"
+            placeholder="Your email address"
             required
             aria-invalid={Boolean(state.errors?.email)}
             aria-describedby={state.errors?.email ? 'contact-email-error' : undefined}

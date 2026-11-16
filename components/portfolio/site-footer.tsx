@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import { Send } from 'lucide-react'
+import { PrivacyPreferencesButton } from './consent-manager'
 
 export function SiteFooter() {
   return (
@@ -8,6 +9,7 @@ export function SiteFooter() {
         <div className="font-mono text-xs text-muted-foreground">
           <p>{'© 2026 Jass Dev'}</p>
           <p className="mt-1">Built with Next.js, Tailwind CSS &amp; React Three Fiber</p>
+          <PrivacyPreferencesButton />
         </div>
         <div className="flex items-center gap-4">
           <p className="hidden text-sm text-muted-foreground sm:block">Have a project in mind?</p>

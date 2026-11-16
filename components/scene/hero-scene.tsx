@@ -14,7 +14,6 @@ type ArcRing = {
   speed: number
   tilt: [number, number, number]
   opacity: number
-  tone?: string
 }
 
 const RINGS: ArcRing[] = [
@@ -36,7 +35,7 @@ const RINGS: ArcRing[] = [
   },
 ]
 
-function SegmentedRing({ radius, width, arcs, speed, tilt, opacity, tone, color, boost }: ArcRing & { color: string; boost: number }) {
+function SegmentedRing({ radius, width, arcs, speed, tilt, opacity, color, boost }: ArcRing & { color: string; boost: number }) {
   const ref = useRef<THREE.Group>(null)
   useFrame((_, delta) => {
     if (ref.current) ref.current.rotation.z += delta * speed * (1 + boost * 4)
@@ -47,7 +46,7 @@ function SegmentedRing({ radius, width, arcs, speed, tilt, opacity, tone, color,
         {arcs.map(([start, length], i) => (
           <mesh key={i}>
             <ringGeometry args={[radius, radius + width, 96, 1, start, length]} />
-            <meshBasicMaterial color={tone ?? color} transparent opacity={opacity} side={THREE.DoubleSide} toneMapped={false} />
+            <meshBasicMaterial color={color} transparent opacity={opacity} side={THREE.DoubleSide} toneMapped={false} />
           </mesh>
         ))}
       </group>
@@ -438,9 +437,9 @@ export default function HeroScene() {
   return (
     <Canvas
       frameloop="demand"
-      dpr={[1, 1.25]}
+      dpr={[1, 2]}
       camera={{ position: [0, 0, 9], fov: 45 }}
-      gl={{ antialias: false, alpha: true }}
+      gl={{ antialias: true, alpha: true }}
     >
       <ambientLight intensity={0.6} />
       <pointLight position={[4, 3, 4]} intensity={30} color="#22d3ee" />

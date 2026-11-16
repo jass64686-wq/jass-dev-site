@@ -28,13 +28,13 @@ export function Contact() {
               <Send className="size-4" aria-hidden="true" />
               Start a project
             </Link>
-            <a
-              href="mailto:jass.dev39@gmail.com"
+            <Link
+              href="/contact#message"
               className="inline-flex items-center gap-2 rounded-full border border-white/40 bg-white/10 px-5 py-3 text-sm font-medium transition-colors hover:bg-white/25"
             >
               <Mail className="size-4" aria-hidden="true" />
-              jass.dev39@gmail.com
-            </a>
+              Send a message
+            </Link>
             <ul className="flex items-center gap-2">
               {socials.map(({ href, label }) => (
                 <li key={label}>

@@ -46,7 +46,7 @@ export function Performance() {
           <CodeWindow title="~/projects/portfolio — zsh">
             <span className="text-emerald-400">➜</span> <span className="text-cyan-300">portfolio</span>{' '}
             <span className="text-violet-400">git:(main)</span> npx lighthouse --view
-            {'\n'}<span className="text-slate-500">{'  Running audits on https://jass.dev …'}</span>
+            {'\n'}<span className="text-slate-500">{'  Running audits on https://jassdev.com …'}</span>
             {'\n'}<span className="text-emerald-400">{'  ✓'}</span> First Contentful Paint   <span className="text-orange-300">0.4s</span>
             {'\n'}<span className="text-emerald-400">{'  ✓'}</span> Largest Contentful Paint <span className="text-orange-300">0.9s</span>
             {'\n'}<span className="text-emerald-400">{'  ✓'}</span> Total Blocking Time      <span className="text-orange-300">0ms</span>

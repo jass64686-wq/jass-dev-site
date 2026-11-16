@@ -1,5 +1,7 @@
 import type { Metadata } from 'next'
+import { ExperienceDuration } from '@/components/portfolio/experience-duration'
 import { PortfolioGrid } from '@/components/portfolio/portfolio-grid'
+import { getExperienceDuration } from '@/lib/experience'
 import { projects } from '@/lib/projects'
 
 export const metadata: Metadata = {
@@ -27,10 +29,20 @@ export const metadata: Metadata = {
 }
 
 export default function PortfolioPage() {
+  const initialExperienceDuration = getExperienceDuration()
   const stats = [
     { value: '30+', label: 'Projects' },
     { value: new Set(projects.map((p) => p.category)).size.toString(), label: 'Disciplines' },
-    { value: '4+', label: 'Years shipping' },
+    {
+      value: (
+        <ExperienceDuration
+          initialDuration={initialExperienceDuration}
+          className="text-xl"
+          format="years-shipping"
+        />
+      ),
+      label: 'Years Shipping',
+    },
   ]
 
   return (

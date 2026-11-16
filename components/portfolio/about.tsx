@@ -1,5 +1,7 @@
 import { ArrowRight, Boxes, Gauge, Layers, PlugZap, Server } from 'lucide-react'
 import Link from 'next/link'
+import { ExperienceDuration } from './experience-duration'
+import { getExperienceDuration } from '@/lib/experience'
 import { SectionHeading } from './section-heading'
 import { CodeWindow, tok } from './code-window'
 
@@ -12,6 +14,8 @@ const services = [
 ]
 
 export function About() {
+  const initialExperienceDuration = getExperienceDuration()
+
   return (
     <section id="about" className="pointer-events-none relative py-24">
       <div className="mx-auto grid max-w-6xl gap-8 px-6 lg:grid-cols-12">
@@ -34,7 +38,10 @@ export function About() {
           {'\n'}  <span className={tok.prop}>name</span>: <span className={tok.str}>{"'Jass'"}</span>,
           {'\n'}  <span className={tok.prop}>role</span>: <span className={tok.str}>{"'Full-stack Engineer'"}</span>,
           {'\n'}  <span className={tok.prop}>location</span>: <span className={tok.str}>{"'Remote · UTC-5'"}</span>,
-          {'\n'}  <span className={tok.prop}>experience</span>: <span className={tok.num}>4</span>,
+          {'\n'}  <span className={tok.prop}>experience</span>:{' '}
+          <span className={tok.str}>
+            {"'"}<ExperienceDuration initialDuration={initialExperienceDuration} />{"'"}
+          </span>,
           {'\n'}  <span className={tok.prop}>stack</span>: [
           {'\n'}    <span className={tok.str}>{"'Next.js'"}</span>, <span className={tok.str}>{"'TypeScript'"}</span>,
           {'\n'}    <span className={tok.str}>{"'WordPress'"}</span>, <span className={tok.str}>{"'Shopify'"}</span>,

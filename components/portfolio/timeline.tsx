@@ -1,8 +1,9 @@
 import { SectionHeading } from './section-heading'
+import { EXPERIENCE_START_LABEL } from '@/lib/experience'
 
 const experience = [
   {
-    period: '2023',
+    period: EXPERIENCE_START_LABEL,
     role: 'Shopify, WordPress & JavaScript',
     company: 'Starting out',
     summary: 'Started by building and customizing Shopify and WordPress sites, developing a strong foundation in JavaScript and the web.',
