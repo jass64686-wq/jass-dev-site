@@ -17,9 +17,9 @@ export function StatsStrip() {
               <span className="grid size-11 shrink-0 place-items-center rounded-2xl bg-brand-gradient text-white shadow-lg shadow-fuchsia-500/20">
                 <Icon className="size-5" aria-hidden="true" />
               </span>
-              <div>
-                <dd className="text-2xl font-semibold tracking-tight text-foreground">{value}</dd>
-                <dt className="text-xs text-muted-foreground">{label}</dt>
+              <div className="flex flex-col">
+                <dt className="order-last text-xs text-muted-foreground">{label}</dt>
+                <dd className="order-first text-2xl font-semibold tracking-tight text-foreground">{value}</dd>
               </div>
             </div>
           ))}

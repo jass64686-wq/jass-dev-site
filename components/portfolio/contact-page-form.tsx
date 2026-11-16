@@ -1,7 +1,7 @@
 'use client'
 
 import { useState } from 'react'
-import { ContactForm } from './contact-dialog'
+import { ContactForm } from './contact-form'
 
 export function ContactPageForm() {
   const [formKey, setFormKey] = useState(0)

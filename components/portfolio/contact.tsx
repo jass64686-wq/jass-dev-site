@@ -16,7 +16,7 @@ export function Contact() {
             aria-hidden="true"
             className="absolute -top-24 -right-24 size-72 rounded-full bg-white/20 blur-3xl"
           />
-          <p className="font-mono text-xs uppercase tracking-[0.2em] text-white/80">Contact</p>
+          <p className="font-mono text-xs uppercase tracking-[0.2em] text-white">Contact</p>
           <h2 className="mt-3 max-w-2xl text-balance text-4xl font-semibold tracking-tight md:text-6xl">
             {"Have an idea? Let's build it together."}
           </h2>

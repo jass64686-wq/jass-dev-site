@@ -29,9 +29,9 @@ export function Impact() {
           <SectionHeading eyebrow="my impact" title="Results, not just code" />
           <dl className="mt-10 grid grid-cols-2 gap-3">
             {impact.map(({ value, label, tint }) => (
-              <div key={label} className={`pointer-events-auto rounded-3xl border border-white/70 p-6 backdrop-blur-xl ${tint}`}>
-                <dd className="text-4xl font-semibold tracking-tight">{value}</dd>
-                <dt className="mt-2 text-sm text-foreground/70">{label}</dt>
+              <div key={label} className={`pointer-events-auto flex flex-col rounded-3xl border border-white/70 p-6 backdrop-blur-xl ${tint}`}>
+                <dt className="order-last mt-2 text-sm text-foreground/70">{label}</dt>
+                <dd className="order-first text-4xl font-semibold tracking-tight">{value}</dd>
               </div>
             ))}
           </dl>

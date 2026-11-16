@@ -54,7 +54,7 @@ export function PortfolioGrid({ projects }: { projects: Project[] }) {
                 <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_30%,rgba(255,255,255,0.45),transparent_55%)]" />
                 <div className="absolute -right-6 -bottom-6 size-28 rounded-full border border-white/40" />
                 <div className="absolute -right-2 -bottom-2 size-16 rounded-full border border-white/50" />
-                <span className="relative font-mono text-[11px] uppercase tracking-[0.2em] text-white/90">
+                <span className="relative rounded bg-black/70 px-2 py-1 font-mono text-[11px] uppercase tracking-[0.2em] text-white">
                   {project.category}
                 </span>
               </div>
@@ -68,7 +68,7 @@ export function PortfolioGrid({ projects }: { projects: Project[] }) {
               <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{project.description}</p>
               <div className="mt-auto flex flex-wrap items-center gap-1.5 pt-6">
                 {project.tags.map((tag) => (
-                  <span key={tag} className="rounded-full bg-white/80 px-2.5 py-1 font-mono text-[11px] text-foreground/80">
+                  <span key={tag} className="rounded-full bg-white/80 px-2.5 py-1 font-mono text-[11px] text-foreground">
                     {tag}
                   </span>
                 ))}

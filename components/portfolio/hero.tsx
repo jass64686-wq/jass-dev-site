@@ -39,7 +39,7 @@ export function Hero() {
       </div>
       <p className="absolute inset-x-0 bottom-8 flex items-center justify-center gap-2 font-mono text-xs text-muted-foreground">
         <MousePointerClick className="size-4" aria-hidden="true" />
-        Drag the shapes &middot; click to recolor
+        Move or tap to activate &middot; drag to recolor
       </p>
     </section>
   )

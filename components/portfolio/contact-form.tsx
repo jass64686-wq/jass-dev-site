@@ -4,14 +4,6 @@ import { useActionState, useState } from 'react'
 import { CheckCircle2, Loader2, Send } from 'lucide-react'
 import { submitContact, type ContactState } from '@/app/actions/contact'
 import { Button } from '@/components/ui/button'
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from '@/components/ui/dialog'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Textarea } from '@/components/ui/textarea'
@@ -139,42 +131,5 @@ export function ContactForm({ onDone, doneLabel = 'Close' }: { onDone: () => voi
         {pending ? 'Sending...' : 'Send message'}
       </Button>
     </form>
-  )
-}
-
-export function ContactDialog({ triggerLabel = "Let's work together" }: { triggerLabel?: string }) {
-  const [open, setOpen] = useState(false)
-  const [formKey, setFormKey] = useState(0)
-
-  return (
-    <Dialog
-      open={open}
-      onOpenChange={(next) => {
-        setOpen(next)
-        if (!next) setFormKey((k) => k + 1)
-      }}
-    >
-      <DialogTrigger
-        render={
-          <button
-            type="button"
-            className="pointer-events-auto inline-flex items-center gap-2 rounded-full bg-brand-gradient px-5 py-2.5 font-sans text-sm font-medium text-white shadow-lg shadow-fuchsia-500/20 transition-transform hover:scale-[1.03]"
-          />
-        }
-      >
-        <Send className="size-4" aria-hidden="true" />
-        {triggerLabel}
-      </DialogTrigger>
-      <DialogContent className="gap-5 rounded-3xl p-6 sm:max-w-lg">
-        <DialogHeader>
-          <p className="font-mono text-[11px] uppercase tracking-[0.2em] text-brand-gradient">Contact</p>
-          <DialogTitle className="text-2xl font-semibold tracking-tight">{"Let's build something"}</DialogTitle>
-          <DialogDescription>
-            Share a few details and I&apos;ll reply within two business days.
-          </DialogDescription>
-        </DialogHeader>
-        <ContactForm key={formKey} onDone={() => setOpen(false)} />
-      </DialogContent>
-    </Dialog>
   )
 }

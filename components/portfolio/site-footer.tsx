@@ -1,4 +1,5 @@
-import { ContactDialog } from './contact-dialog'
+import Link from 'next/link'
+import { Send } from 'lucide-react'
 
 export function SiteFooter() {
   return (
@@ -10,7 +11,13 @@ export function SiteFooter() {
         </div>
         <div className="flex items-center gap-4">
           <p className="hidden text-sm text-muted-foreground sm:block">Have a project in mind?</p>
-          <ContactDialog />
+          <Link
+            href="/contact"
+            className="pointer-events-auto inline-flex items-center gap-2 rounded-full bg-brand-gradient px-5 py-2.5 font-sans text-sm font-medium text-white shadow-lg shadow-fuchsia-500/20 transition-transform hover:scale-[1.03]"
+          >
+            <Send className="size-4" aria-hidden="true" />
+            Let&apos;s work together
+          </Link>
         </div>
       </div>
     </footer>
