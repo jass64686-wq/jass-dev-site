@@ -1,6 +1,6 @@
 'use client'
 
-import { useCallback, useRef, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import { preloadHeroScene, SCENE_ACTIVATION_EVENT } from './scene-background'
 
 type SceneStatus = 'idle' | 'loading' | 'ready' | 'active' | 'error'
@@ -9,6 +9,7 @@ export function SceneActivationControl() {
   const [status, setStatus] = useState<SceneStatus>('idle')
   const loadPromise = useRef<Promise<boolean> | null>(null)
   const isActive = useRef(false)
+  const automaticActivationTimer = useRef<number | null>(null)
 
   const preload = useCallback(() => {
     if (loadPromise.current) return loadPromise.current
@@ -31,6 +32,11 @@ export function SceneActivationControl() {
   }, [])
 
   const activate = useCallback(() => {
+    if (automaticActivationTimer.current !== null) {
+      window.clearTimeout(automaticActivationTimer.current)
+      automaticActivationTimer.current = null
+    }
+
     if (isActive.current) return
 
     void preload().then((loaded) => {
@@ -40,6 +46,25 @@ export function SceneActivationControl() {
       window.dispatchEvent(new Event(SCENE_ACTIVATION_EVENT))
     })
   }, [preload])
+
+  useEffect(() => {
+    let timer: number | null = null
+
+    const scheduleActivation = () => {
+      if (isActive.current) return
+      timer = window.setTimeout(activate, 2500)
+      automaticActivationTimer.current = timer
+    }
+
+    if (document.readyState === 'complete') scheduleActivation()
+    else window.addEventListener('load', scheduleActivation, { once: true })
+
+    return () => {
+      window.removeEventListener('load', scheduleActivation)
+      if (timer !== null) window.clearTimeout(timer)
+      if (automaticActivationTimer.current === timer) automaticActivationTimer.current = null
+    }
+  }, [activate])
 
   const label = {
     idle: 'Activate the interactive scene',

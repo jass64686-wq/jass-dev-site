@@ -29,7 +29,7 @@ export const metadata: Metadata = {
 }
 
 const details: { icon: LucideIcon; label: string; value: string; href?: string }[] = [
-  { icon: Mail, label: 'Email', value: 'Use the form below to send a message' },
+  { icon: Mail, label: 'Email', value: 'jass.dev39@gmail.com', href: 'mailto:jass.dev39@gmail.com' },
   { icon: Clock, label: 'Response time', value: 'Within 48 hours' },
   { icon: MapPin, label: 'Location', value: 'Remote · Worldwide' },
 ]
