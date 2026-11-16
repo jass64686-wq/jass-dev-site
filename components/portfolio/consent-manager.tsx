@@ -1,11 +1,13 @@
 'use client'
 
 import dynamic from 'next/dynamic'
+import Script from 'next/script'
 import { useCallback, useEffect, useRef, useState } from 'react'
 import type { BeforeSend } from '@vercel/analytics/next'
 
 const CONSENT_STORAGE_KEY = 'jass-dev-analytics-consent'
 const OPEN_PREFERENCES_EVENT = 'jass-dev:open-privacy-preferences'
+const GTM_CONTAINER_ID = 'GTM-NVNG9RB6'
 
 type ConsentChoice = 'accepted' | 'rejected'
 
@@ -65,7 +67,23 @@ export function ConsentManager({ analyticsEnabled }: { analyticsEnabled: boolean
 
   return (
     <>
-      {analyticsEnabled && choice === 'accepted' && <Analytics beforeSend={beforeSend} />}
+      {analyticsEnabled && choice === 'accepted' && (
+        <>
+          <Script id="google-tag-manager-init" strategy="afterInteractive">
+            {`window.dataLayer = window.dataLayer || [];
+window.dataLayer.push({ 'gtm.start': new Date().getTime(), event: 'gtm.js' });
+function gtag() { window.dataLayer.push(arguments); }
+gtag('js', new Date());`}
+          </Script>
+          <Script
+            id="google-tag-manager"
+            src={`https://www.googletagmanager.com/gtm.js?id=${GTM_CONTAINER_ID}`}
+            strategy="afterInteractive"
+            onError={(error) => console.error('Failed to load Google Tag Manager.', error)}
+          />
+          <Analytics beforeSend={beforeSend} />
+        </>
+      )}
 
       {isReady && isOpen && (
         <aside
