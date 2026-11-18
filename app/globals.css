@@ -186,12 +186,26 @@ canvas:focus-visible {
 
 .scene-fallback {
   background:
-    radial-gradient(circle, transparent 0 17%, rgb(109 40 217 / 12%) 17.5% 17.8%, transparent 18.5% 34%, rgb(190 24 93 / 10%) 34.5% 34.8%, transparent 35.5% 48%, rgb(194 65 12 / 8%) 48.5% 48.8%, transparent 49.5%),
-    radial-gradient(ellipse, rgb(124 58 237 / 8%), transparent 68%);
+    radial-gradient(circle, transparent 0 17.25%, rgb(109 40 217 / 5%) 17.42% 17.54%, transparent 17.72% 33.75%, rgb(190 24 93 / 4%) 33.92% 34.04%, transparent 34.22% 47.75%, rgb(194 65 12 / 3%) 47.92% 48.04%, transparent 48.22%),
+    radial-gradient(ellipse, rgb(124 58 237 / 5%), transparent 68%);
+  transition: filter 500ms ease, opacity 500ms ease;
+}
+
+.scene-fallback[data-loading='true'] {
+  filter: blur(4px);
+}
+
+.scene-fallback[data-ready='true'] {
+  filter: blur(6px);
+  opacity: 0;
 }
 
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
+  }
+
+  .scene-fallback {
+    transition: none;
   }
 }

@@ -1,6 +1,7 @@
 'use client'
 
-import { Canvas, useFrame, useThree, type ThreeEvent } from '@react-three/fiber'
+import { type ThreeEvent } from '@react-three/fiber'
+import { Canvas, useFrame, useThree } from '@react-three/fiber/legacy'
 import { useEffect, useMemo, useRef, useState, type ReactNode } from 'react'
 import * as THREE from 'three'
 
@@ -83,7 +84,7 @@ function TickRing({ radius, count, color }: { radius: number; count: number; col
 }
 
 function ArcReactor({ position }: { position: [number, number, number] }) {
-  const { gl, viewport } = useThree()
+  const { renderer, viewport } = useThree()
   const isNarrow = viewport.width < 8
   const group = useRef<THREE.Group>(null)
   const core = useRef<THREE.Mesh>(null)
@@ -99,7 +100,7 @@ function ArcReactor({ position }: { position: [number, number, number] }) {
   const color = HUD_COLORS[colorIndex]
 
   useEffect(() => {
-    const canvas = gl.domElement
+    const canvas = renderer.domElement
     const previousTabIndex = canvas.getAttribute('tabindex')
     const previousRole = canvas.getAttribute('role')
     const previousLabel = canvas.getAttribute('aria-label')
@@ -148,11 +149,11 @@ function ArcReactor({ position }: { position: [number, number, number] }) {
       if (previousLabel === null) canvas.removeAttribute('aria-label')
       else canvas.setAttribute('aria-label', previousLabel)
     }
-  }, [gl])
+  }, [renderer])
 
   useFrame((state, delta) => {
     if (!group.current || !core.current || !shell.current) return
-    const t = state.clock.elapsedTime
+    const t = state.elapsed
     if (!dragging.current) rotationTarget.current.y += delta * 0.12
     group.current.rotation.x = THREE.MathUtils.damp(group.current.rotation.x, rotationTarget.current.x, 6, delta)
     group.current.rotation.y = THREE.MathUtils.damp(group.current.rotation.y, rotationTarget.current.y, 6, delta)
@@ -354,45 +355,37 @@ function CameraRig() {
   return null
 }
 
-function FrameScheduler() {
-  const invalidate = useThree((state) => state.invalidate)
+function FrameLoopController() {
+  const setFrameloop = useThree((state) => state.setFrameloop)
 
   useEffect(() => {
     const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)')
-    let timer: number | undefined
-
-    const stop = () => {
-      if (timer !== undefined) {
-        window.clearTimeout(timer)
-        timer = undefined
-      }
-    }
-
-    const schedule = () => {
-      if (document.hidden || reducedMotion.matches || timer !== undefined) return
-      timer = window.setTimeout(() => {
-        timer = undefined
-        invalidate()
-        schedule()
-      }, 1000 / 30)
-    }
 
     const update = () => {
-      if (document.hidden || reducedMotion.matches) stop()
-      else schedule()
+      setFrameloop(document.hidden || reducedMotion.matches ? 'demand' : 'always')
     }
 
-    invalidate()
     update()
     document.addEventListener('visibilitychange', update)
     reducedMotion.addEventListener('change', update)
 
     return () => {
-      stop()
       document.removeEventListener('visibilitychange', update)
       reducedMotion.removeEventListener('change', update)
     }
-  }, [invalidate])
+  }, [setFrameloop])
+
+  return null
+}
+
+function SceneReady({ onReady }: { onReady: () => void }) {
+  const hasNotified = useRef(false)
+
+  useFrame(() => {
+    if (hasNotified.current) return
+    hasNotified.current = true
+    onReady()
+  })
 
   return null
 }
@@ -433,14 +426,15 @@ function ResponsiveGroup({ children }: { children: ReactNode }) {
   )
 }
 
-export default function HeroScene() {
+export default function HeroScene({ onReady }: { onReady: () => void }) {
   return (
     <Canvas
-      frameloop="demand"
+      frameloop="always"
       dpr={[1, 2]}
       camera={{ position: [0, 0, 9], fov: 45 }}
       gl={{ antialias: true, alpha: true }}
     >
+      <SceneReady onReady={onReady} />
       <ambientLight intensity={0.6} />
       <pointLight position={[4, 3, 4]} intensity={30} color="#22d3ee" />
 
@@ -458,7 +452,7 @@ export default function HeroScene() {
       <directionalLight position={[6, 1, 1]} intensity={1.8} color="#a5f3fc" />
 
       <CameraRig />
-      <FrameScheduler />
+      <FrameLoopController />
     </Canvas>
   )
 }
