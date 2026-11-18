@@ -9,6 +9,7 @@ const nextConfig = {
   },
   experimental: {
     inlineCss: true,
+    agentUpgrade: "security",
   },
 }
 
